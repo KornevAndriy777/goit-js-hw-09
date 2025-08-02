@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 import { glob } from 'glob';
 import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
@@ -10,13 +11,14 @@ export default defineConfig(({ command }) => {
       [command === 'serve' ? 'global' : '_global']: {},
     },
     root: 'src',
+    base: '/goit-js-hw-09/',
     build: {
       sourcemap: true,
       rollupOptions: {
         input: {
-          main: 'index.html',
-          gallery: 'js/1-gallery.html',
-          form: 'js/2-form.html'
+          main: resolve(__dirname, 'src/index.html'),
+          gallery: resolve(__dirname, 'src/js/1-gallery.html'),
+          form: resolve(__dirname, 'src/js/2-form.html')
         },
         output: {
           manualChunks(id) {
@@ -44,10 +46,14 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       injectHTML(),
-      FullReload(['./src/**/**.html']),
+      FullReload(['./src/**/*.html']),
       SortCss({
         sort: 'mobile-first',
       }),
     ],
+    server: {
+      open: true,
+      host: true,
+    }
   };
 });
