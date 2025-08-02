@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+mport { defineConfig } from 'vite';
 import { glob } from 'glob';
 import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
@@ -13,7 +13,11 @@ export default defineConfig(({ command }) => {
     build: {
       sourcemap: true,
       rollupOptions: {
-        input: glob.sync('./src/*.html').concat(glob.sync('./src/**/*.html')),
+        input: {
+          main: 'src/index.html',
+          gallery: 'src/js/1-gallery.html',
+          form: 'src/js/2-form.html'
+        },
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
@@ -32,6 +36,7 @@ export default defineConfig(({ command }) => {
             }
             return 'assets/[name]-[hash][extname]';
           },
+          chunkFileNames: 'assets/[name]-[hash].js'
         },
       },
       outDir: '../dist',
