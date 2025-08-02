@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
 import { glob } from 'glob';
 import injectHTML from 'vite-plugin-html-inject';
 import FullReload from 'vite-plugin-full-reload';
@@ -15,11 +14,7 @@ export default defineConfig(({ command }) => {
     build: {
       sourcemap: true,
       rollupOptions: {
-        input: {
-          main: resolve(__dirname, 'src/index.html'),
-          gallery: resolve(__dirname, 'src/js/1-gallery.html'),
-          form: resolve(__dirname, 'src/js/2-form.html')
-        },
+        input: glob.sync('src/*.html').concat(glob.sync('src/**/*.html')),
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
