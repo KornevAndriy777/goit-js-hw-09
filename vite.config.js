@@ -9,11 +9,11 @@ export default defineConfig(({ command }) => {
     define: {
       [command === 'serve' ? 'global' : '_global']: {},
     },
-    base: '/goit-js-hw-09/',
+    root: 'src',
     build: {
       sourcemap: true,
       rollupOptions: {
-        input: glob.sync('./*.html'), 
+        input: glob.sync('./src/*.html'),
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
@@ -34,12 +34,12 @@ export default defineConfig(({ command }) => {
           },
         },
       },
-      outDir: 'dist', 
+      outDir: '../dist',
       emptyOutDir: true,
     },
     plugins: [
       injectHTML(),
-      FullReload(['./**/*.html']), 
+      FullReload(['./src/**/**.html']),
       SortCss({
         sort: 'mobile-first',
       }),
