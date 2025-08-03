@@ -10,11 +10,10 @@ export default defineConfig(({ command }) => {
       [command === 'serve' ? 'global' : '_global']: {},
     },
     root: 'src',
-    base: '/goit-js-hw-09/',
     build: {
       sourcemap: true,
       rollupOptions: {
-        input: glob.sync('src/*.html').concat(glob.sync('src/**/*.html')),
+        input: glob.sync('./src/*.html'),
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
@@ -33,7 +32,6 @@ export default defineConfig(({ command }) => {
             }
             return 'assets/[name]-[hash][extname]';
           },
-          chunkFileNames: 'assets/[name]-[hash].js'
         },
       },
       outDir: '../dist',
@@ -41,14 +39,10 @@ export default defineConfig(({ command }) => {
     },
     plugins: [
       injectHTML(),
-      FullReload(['./src/**/*.html']),
+      FullReload(['./src/**/**.html']),
       SortCss({
         sort: 'mobile-first',
       }),
     ],
-    server: {
-      open: true,
-      host: true,
-    }
   };
 });
